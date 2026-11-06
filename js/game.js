@@ -37,6 +37,13 @@ const IMG = {
 
 (()=>{
 "use strict";
+// en el celu, al entrar desde un link la pantalla queda corrida: se recarga sola una vez a los 0,5 s
+try{
+  if(matchMedia('(pointer:coarse)').matches){
+    const k='88mph-recarga',t=+sessionStorage.getItem(k)||0;
+    if(Date.now()-t>10000){sessionStorage.setItem(k,String(Date.now()));setTimeout(()=>location.reload(),500)}
+  }
+}catch(e){}
 const DIRS=['E','SE','S','SW','W','NW','N','NE'];
 const load=src=>{const i=new Image();i.src=src;return i};
 const carImg={},vanImg={};
@@ -210,6 +217,13 @@ function resize(){
   drawBezel();
 }
 addEventListener('resize',resize);
+// el logo y el velocímetro quedan siempre arriba del aviso legal
+function placeLegal(){const d=document.querySelector('.disclaimer');if(d)document.documentElement.style.setProperty('--legal-h',Math.ceil(d.getBoundingClientRect().height)+'px')}
+addEventListener('resize',placeLegal);addEventListener('orientationchange',()=>setTimeout(()=>{resize();placeLegal()},300));
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>{resize();placeLegal()});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(placeLegal);
+placeLegal();
+if(window.ResizeObserver){const d=document.querySelector('.disclaimer');if(d)new ResizeObserver(placeLegal).observe(d)}
 // aro del velocímetro dibujado en pixeles, del mismo tamaño de pixel que el juego
 function drawBezel(){
   const bz=document.getElementById('bezel');if(!bz)return;
@@ -293,6 +307,7 @@ addEventListener('blur',()=>{for(const k in keys)keys[k]=false;if(state==='play'
 const joy=document.getElementById('joy'),knob=document.getElementById('joyKnob');
 let tj=null;
 addEventListener('pointerdown',e=>{
+  if(state==='paused'){resume();return} // en el celu no hay tecla P: tocar la pantalla saca de la pausa
   retryMusic(); // un clic sólo habilita el sonido; el juego arranca con las flechas
   if(e.pointerType==='mouse')return;
   if(state==='title'){start();return}

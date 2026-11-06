@@ -25,8 +25,8 @@ body{font-family:var(--font-body);font-size:22px;user-select:none;-webkit-user-s
 .lives img{width:86px;image-rendering:auto} /* 3 vidas = 266px = ancho del tiempo (7 caracteres de 38px) */
 .lives img.lost{opacity:.18;filter:grayscale(1)}
 .keys{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));font-family:var(--font-body);font-size:19px;color:#d4d7e0;text-shadow:2px 2px 0 #16171d;text-align:right;line-height:1.05;pointer-events:none}
-.speedo{position:fixed;right:calc(1cm + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));width:var(--gauge);display:flex;flex-direction:column;align-items:center;gap:1cm;pointer-events:none}
-.logo{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));width:var(--gauge);max-width:calc(50vw - 28px);pointer-events:none}
+.speedo{position:fixed;right:calc(1cm + env(safe-area-inset-right,0px));bottom:calc(var(--legal-h,34px) + 10px + env(safe-area-inset-bottom,0px));width:var(--gauge);display:flex;flex-direction:column;align-items:center;gap:1cm;pointer-events:none}
+.logo{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(var(--legal-h,34px) + 10px + env(safe-area-inset-bottom,0px));width:var(--gauge);max-width:calc(50vw - 28px);pointer-events:none}
 .logo img{display:block;width:100%;height:auto}
 .dial{position:relative;width:100%;aspect-ratio:1;max-width:100%}
 #bezel{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
@@ -73,5 +73,8 @@ body:not(.playing) .hud,body:not(.playing) .speedo,body:not(.playing) .keys{disp
 .stats .rec{color:#3fb8ff}
 
 /* aviso legal: chiquito y pixelado, abajo al centro, siempre visible */
-.disclaimer{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100vw - 2*var(--gauge) - 80px));min-width:240px;margin:0;font-family:var(--font-display);font-size:8px;line-height:1.6;text-align:center;color:#c9ccd6;text-shadow:1px 1px 0 #16171d;pointer-events:none;z-index:5}
-@media (max-width:760px){.disclaimer{width:calc(100vw - 32px);font-size:7px;bottom:calc(4px + env(safe-area-inset-bottom,0px))}}
+.disclaimer{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom,0px));width:min(760px,calc(100vw - 32px));margin:0;font-family:var(--font-display);font-size:8px;line-height:1.7;text-wrap:balance;text-align:center;color:#c9ccd6;text-shadow:1px 1px 0 #16171d;pointer-events:none;z-index:5}
+@media (max-width:760px){.disclaimer{font-size:6px;bottom:calc(6px + env(safe-area-inset-bottom,0px))}}
+/* pausa: en la compu se sale con P, en el celu tocando la pantalla */
+.only-touch{display:none}
+@media (hover:none) and (pointer:coarse){.only-touch{display:inline}.only-keys{display:none}}
