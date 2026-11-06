@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Escape from the Libyans</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="flash"></div>
+
+<div class="hud">
+  <div class="row"><div class="lives" id="lives"></div></div>
+  <div class="row"><span id="time">00:00.0</span></div>
+</div>
+
+<div class="logo"><img src="img/logo.png" alt="Escape from the Libyans"></div>
+
+<div class="speedo">
+  <div class="dial"><canvas id="bezel" width="64" height="64"></canvas><img id="speedImg" src="img/velocimetro.png" alt="Velocímetro"><canvas id="needle" width="128" height="128"></canvas></div>
+  <div class="readout" id="readout">000 MPH</div>
+</div>
+
+<div class="joy" id="joy" hidden><i id="joyKnob"></i></div>
+
+<div class="overlay title" id="ovStart">
+  <div class="titlebox">
+    <img class="biglogo" src="img/logo.png" alt="Escape from the Libyans">
+    <div class="play blink">PLAY</div>
+    <img class="arrows" src="img/teclado.png" alt="Se juega con las flechas del teclado">
+  </div>
+</div>
+
+<div class="overlay endscreen" id="ovPause" hidden>
+  <div class="endbox">
+    <h2>PAUSED</h2>
+    <p class="play">P TO RESUME</p>
+  </div>
+</div>
+
+<div class="overlay endscreen" id="ovWin" hidden>
+  <div class="endbox">
+    <h2 class="win">YOU ESCAPED!</h2>
+    <p class="stats" id="winStat"></p>
+    <div class="play blink">PLAY AGAIN</div>
+    <img class="arrows" src="img/teclado.png" alt="">
+  </div>
+</div>
+
+<div class="overlay endscreen" id="ovLose" hidden>
+  <div class="endbox">
+    <h2 class="lose">THE LIBYANS GOT YOU</h2>
+    <p class="stats" id="loseStat"></p>
+    <div class="play blink">PLAY AGAIN</div>
+    <img class="arrows" src="img/teclado.png" alt="">
+  </div>
+</div>
+
+<p class="disclaimer">This is an independent unofficial fan project. Not affiliated with or endorsed by Universal Pictures or Amblin Entertainment. All rights belong to their respective owners.</p>
+
+<script src="js/fx.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
