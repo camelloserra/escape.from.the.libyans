@@ -37,13 +37,7 @@ const IMG = {
 
 (()=>{
 "use strict";
-// en el celu, al entrar desde un link la pantalla queda corrida: se recarga sola una vez a los 0,5 s
-try{
-  if(matchMedia('(pointer:coarse)').matches){
-    const k='88mph-recarga',t=+sessionStorage.getItem(k)||0;
-    if(Date.now()-t>10000){sessionStorage.setItem(k,String(Date.now()));setTimeout(()=>location.reload(),500)}
-  }
-}catch(e){}
+try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){} // que el navegador no recuerde un desplazamiento viejo
 const DIRS=['E','SE','S','SW','W','NW','N','NE'];
 const load=src=>{const i=new Image();i.src=src;return i};
 const carImg={},vanImg={};
@@ -729,6 +723,11 @@ function frame(t){
   draw();hud();requestAnimationFrame(frame);
 }
 resize();newRun();
+// la pantalla nunca se desplaza: se vuelve a encajar al cargar, al volver a la pestaña y cuando el navegador muestra u oculta sus barras
+function fitScreen(){if(window.scrollX||window.scrollY)window.scrollTo(0,0);resize();placeLegal()}
+for(const ms of [0,150,500,1200])setTimeout(fitScreen,ms);
+addEventListener('pageshow',fitScreen);addEventListener('scroll',()=>{if(window.scrollY)window.scrollTo(0,0)},{passive:true});
+if(window.visualViewport){visualViewport.addEventListener('resize',fitScreen);visualViewport.addEventListener('scroll',fitScreen)}
 playMusic('inicio',true);
 requestAnimationFrame(frame);
 })();
