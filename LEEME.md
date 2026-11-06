@@ -67,3 +67,4 @@ Las tipografías se cargan desde Google Fonts, así que hace falta internet para
 
 - `inicio-8bit` suena en la pantalla del logo, `escape-8bit` mientras jugás y `final-8bit` cuando escapás.
 - Los navegadores no dejan sonar nada hasta que la persona toca la página. Si la música del inicio no arranca sola, empieza con el primer clic o la primera tecla.
+ 
