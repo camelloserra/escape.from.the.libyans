@@ -527,6 +527,21 @@ function update(dt){
   shake=Math.max(0,shake-dt*14);
   engine(state==='play'||state==='warp'?car.mph:0,state==='play'||(state==='warp'&&!car.gone));
 }
+/* ---------- ranking mundial (ranking.js) ---------- */
+const GAME='escape-from-the-libyans';let worldTop=null;
+function loadWorld(){if(!window.PNJ)return;PNJ.ranking(GAME).then(d=>{worldTop=d.top&&d.top[0]||null}).catch(()=>{})}
+loadWorld();
+function worldLine(){return worldTop?`<br>WORLD&nbsp; ${fmt(+worldTop.score)} ${worldTop.name}`:''}
+function showRanking(d){
+  const rk=$('rkWin');rk.innerHTML='';worldTop=d.top&&d.top[0]||worldTop;
+  rk.appendChild(PNJ.board(d,{title:'WORLD RANKING',format:v=>fmt(+v),youLabel:(p,t)=>`YOU ARE #${p} OF ${t}`}));
+  if(d.me)rk.appendChild(PNJ.shareButton({label:'SHARE',copied:'COPIED!',text:()=>`🚗💨 I escaped from the Libyans in ${fmt(+d.me.score)} and I'm #${d.me.pos} in the world ranking. Can you beat me?`}));
+}
+function askName(t){
+  const rk=$('rkWin');rk.innerHTML='';if(!window.PNJ)return;
+  const f=PNJ.nameForm({label:'ENTER YOUR NAME',button:'SAVE',saving:'SAVING…',tooFast:'WAIT A FEW SECONDS',error:"COULDN'T SAVE. TRY AGAIN.",onSubmit:async n=>showRanking(await PNJ.submit(GAME,'',n,t))});
+  rk.appendChild(f);if(!matchMedia('(pointer: coarse)').matches)setTimeout(()=>f.focusInput(),50);
+}
 function win(){
   portal.closeAt=portal.t+.05;
   // estela de fuego: la imagen de la dirección más parecida, girada al rumbo exacto, que sigue de largo después del portal
@@ -538,14 +553,14 @@ function win(){
   state='won';
   const t=elapsed;let rec='';
   if(best===null||t<best){best=t;rec=' <span class="rec">NEW RECORD!</span>';try{localStorage.setItem('88mph-best',String(t))}catch(e){}}
-  setTimeout(()=>{if(state==='won'){$('winStat').innerHTML=`TIME&nbsp; ${fmt(t)}<br>BEST&nbsp; ${fmt(best)}${rec}<br>LIVES ${lives}/${CONFIG.vidas}`;showOnly('ovWin');endShown=true;restartAt=performance.now()+700}},1800);
+  setTimeout(()=>{if(state==='won'){$('winStat').innerHTML=`TIME&nbsp; ${fmt(t)}<br>BEST&nbsp; ${fmt(best)}${rec}<br>LIVES ${lives}/${CONFIG.vidas}`;askName(t);showOnly('ovWin');endShown=true;restartAt=performance.now()+700}},1800);
 }
 function die(){ // el auto explota
   state='lost';car.mph=0;car.dead=performance.now();
   explode(car.x,car.y-20,true,1);boom(1.4,.5,260);tone(90,30,.9,'sawtooth',.12);shake=12;
   skids.push(...Array.from({length:160},()=>{const a=Math.random()*6.28,r=Math.sqrt(Math.random())*34;return{x:Math.round((car.x+Math.cos(a)*r)/2)*2,y:Math.round((car.y+Math.sin(a)*r*.5)/2)*2}}));
   if(music)music.volume=muted?0:CONFIG.volumenMusica*.35;
-  setTimeout(()=>{stopMusic();$('loseStat').innerHTML=`TIME&nbsp; ${fmt(elapsed)}`+(best!==null?`<br>BEST&nbsp; ${fmt(best)}`:'');showOnly('ovLose');endShown=true;restartAt=performance.now()+700},1700);
+  setTimeout(()=>{stopMusic();$('loseStat').innerHTML=`TIME&nbsp; ${fmt(elapsed)}`+(best!==null?`<br>BEST&nbsp; ${fmt(best)}`:'')+worldLine();showOnly('ovLose');endShown=true;restartAt=performance.now()+700},1700);
 }
 function updateTrails(dt){
   for(const tr of trails){

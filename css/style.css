@@ -80,3 +80,33 @@ body:not(.playing) .hud,body:not(.playing) .speedo,body:not(.playing) .keys{disp
 /* pausa: en la compu se sale con P, en el celu tocando la pantalla */
 .only-touch{display:none}
 @media (hover:none) and (pointer:coarse){.only-touch{display:inline}.only-keys{display:none}}
+
+/* link a Prohibido No Jugar: arriba a la derecha, con la letra del HUD */
+.pnj{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));z-index:20;font-family:var(--font-display);font-size:12px;line-height:1;color:#eef0f5;text-shadow:2px 2px 0 #16171d;text-decoration:none}
+.pnj:hover{color:#ffd23f}
+@media (max-width:560px){.pnj{font-size:9px}}
+
+/* ranking mundial (ranking.js): misma letra y sombras que los carteles */
+.rk{display:flex;flex-direction:column;align-items:center;gap:14px;font-family:var(--font-display)}
+.rk:empty{display:none}
+.pnj-form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px}
+.pnj-label{width:100%;text-align:center;font-size:clamp(10px,1.1vw,14px);color:#ffb21a;text-shadow:2px 2px 0 #16171d}
+.pnj-input{font-family:var(--font-display);font-size:clamp(20px,2.4vw,30px);width:7.2em;padding:.35em 0 .35em .45em;letter-spacing:.45em;text-align:center;text-transform:uppercase;color:#eef0f5;caret-color:#ffb21a;background:#16171d;border:4px solid #eef0f5;border-radius:0;outline:none;box-shadow:4px 4px 0 #ff6a1a}
+.pnj-input::placeholder{color:#4a4d5a}
+.pnj-input:focus{border-color:#ffb21a}
+.pnj-btn{font-family:var(--font-display);font-size:clamp(11px,1.1vw,14px);background:#eef0f5;color:#16171d;border:0;padding:14px 18px;cursor:pointer;box-shadow:4px 4px 0 #ff6a1a}
+.pnj-btn:hover{background:#ffb21a}
+.pnj-btn:active{transform:translate(4px,4px);box-shadow:none}
+.pnj-btn:disabled{opacity:.45;pointer-events:none}
+.pnj-share{box-shadow:4px 4px 0 #3fb8ff}
+.pnj-msg{width:100%;min-height:1em;text-align:center;font-size:10px;color:#ff5a4a;text-shadow:1px 1px 0 #16171d}
+.pnj-board{display:flex;flex-direction:column;align-items:center;background:rgba(22,23,29,.82);padding:14px 22px 16px;box-shadow:4px 4px 0 #ff6a1a}
+.pnj-title{font-size:clamp(11px,1.2vw,15px);color:#ffb21a;text-shadow:2px 2px 0 #16171d;margin-bottom:12px}
+.pnj-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:auto auto auto;column-gap:22px;row-gap:6px;font-size:clamp(10px,1.1vw,14px);color:#eef0f5;text-shadow:2px 2px 0 #16171d;font-variant-numeric:tabular-nums}
+.pnj-list li{display:contents}
+.pnj-list .pos{text-align:right;color:#9aa0b4}
+.pnj-list .nm{text-align:left}
+.pnj-list .sc{text-align:right}
+.pnj-list li.me span{color:#3fb8ff;animation:blink .6s steps(2) infinite}
+.pnj-list li.gap span{grid-column:1/-1;text-align:center;color:#9aa0b4}
+.pnj-you{margin-top:12px;font-size:clamp(11px,1.3vw,16px);color:#3fb8ff;text-shadow:2px 2px 0 #16171d}
